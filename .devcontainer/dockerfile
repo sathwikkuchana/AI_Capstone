@@ -1,0 +1,28 @@
+# Use an official Python image
+FROM python:3.9-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# (Optional) Install CUDA dependencies if using GPU-enabled models; note Codespaces may have limited GPU support
+# RUN apt-get install -y libcuda1-<version> ...
+
+# Set the working directory
+WORKDIR /workspace
+
+# Copy dependency file
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the project (or use a volume mount in Codespaces)
+COPY . .
+
+# Set default command
+CMD ["bash"]
+
+RUN apt-get update && apt-get install -y python3-pip
